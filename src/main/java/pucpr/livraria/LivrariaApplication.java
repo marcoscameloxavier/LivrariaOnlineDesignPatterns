@@ -20,8 +20,11 @@ public class LivrariaApplication {
 		Cliente cliente = new Cliente("João", "joao@example.com", "(61)99314-8541", "Rua A, 123", "123.456.789-00", "12345-678");
 		NotificacaoFactory factory = new ConcreteNotificacaoFactory();
 
-		Notificacao notificacaoEmail = factory.criarNotificacao(TipoNotificacao.EMAIL);
-		notificacaoEmail.enviar("Bem-vindo à nossa livraria!", cliente);
+	//tirar a dúvida com professor se isso é abstract factory ou o factory method?
+	//	Notificacao notificacaoEmail = factory.criarNotificacao(TipoNotificacao.EMAIL);
+	//	notificacaoEmail.enviar("Bem-vindo à nossa livraria!", cliente);
+
+		factory.criarNotificacao(TipoNotificacao.EMAIL).enviar("Bem-vindo à nossa livraria!", cliente);
 
 		Notificacao notificacaoSMS = factory.criarNotificacao(TipoNotificacao.SMS);
 		notificacaoSMS.enviar("Seu pedido foi enviado.", cliente);
