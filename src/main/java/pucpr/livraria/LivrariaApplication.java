@@ -3,11 +3,16 @@ package pucpr.livraria;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pucpr.livraria.entity.Cliente;
+import pucpr.livraria.entity.Livro;
+import pucpr.livraria.entity.Pedido;
 import pucpr.livraria.facade.LivrariaFachada;
 import pucpr.livraria.notificacao.ConcreteNotificacaoFactory;
 import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.NotificacaoFactory;
 import pucpr.livraria.notificacao.TipoNotificacao;
+import pucpr.livraria.processamentoPedido.*;
+
+import java.util.List;
 
 @SpringBootApplication
 public class LivrariaApplication {
@@ -36,12 +41,33 @@ public class LivrariaApplication {
 		// Uso do DAO
 		LivrariaFachada fachada = new LivrariaFachada();
 		//Tá dando erro, precisa investigar esse código
-		/*List<Livro> livros = fachada.buscarLivrosPorAutor("Design Patterns");
+		List<Livro> livros = fachada.buscarLivrosPorAutor("Design");
 
 		for (Livro livro : livros) {
 			System.out.println("Título: " + livro.getTitulo());
 			// Outros atributos do livro
-		}*/
+		}
+
+		Pedido pedido = new Pedido();
+		ProcessamentoPedido acompanhamentoPedido = getChainOfResponsibility();
+		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+	}
+
+	// Perguntar ao professor qual o melhor local para colocar esse método
+	private static ProcessamentoPedido getChainOfResponsibility() {
+
+		ProcessamentoPedido pagamentoEfetuado = new PagamentoPedido();
+		ProcessamentoPedido emissaoNF = new EmissaoNF();
+		ProcessamentoPedido entregaTransportador = new EntregaTransportador();
+		ProcessamentoPedido saidaEntrega = new SaidaEntrega();
+		ProcessamentoPedido entregaRealizada = new EntregaRealizada();
+
+		pagamentoEfetuado.setProximo(emissaoNF);
+		emissaoNF.setProximo(entregaTransportador);
+		entregaTransportador.setProximo(saidaEntrega);
+		saidaEntrega.setProximo(entregaRealizada);
+
+		return pagamentoEfetuado;
 	}
 
 }

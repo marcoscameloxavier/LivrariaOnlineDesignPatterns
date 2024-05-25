@@ -1,6 +1,6 @@
 package pucpr.livraria.notificacao;
 
-public class ConcreteNotificacaoFactory extends NotificacaoFactory {
+public class ConcreteNotificacaoFactory implements NotificacaoFactory {
     @Override
     public Notificacao criarNotificacao(TipoNotificacao tipo) {
         switch (tipo) {

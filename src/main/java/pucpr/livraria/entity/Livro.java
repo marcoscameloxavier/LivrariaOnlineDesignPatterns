@@ -8,21 +8,24 @@ public class Livro {
     private String autor;
     private String genero;
     private String sinopse;
-    private LocalDate dataPublicacao;
     private String editora;
     private double preco;
+    private int numPaginas;
+
+    public Livro(){
+    }
 
     public Livro(String titulo){
         this.titulo = titulo;
     }
 
-    public Livro(String titulo, String autor, String genero, String sinopse, LocalDate dataPublicacao, String editora, double preco) {
+    public Livro(String titulo, String autor, String genero, String sinopse, String editora, int numPaginas, double preco) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
         this.sinopse = sinopse;
-        this.dataPublicacao = dataPublicacao;
         this.editora = editora;
+        this.numPaginas = numPaginas;
         this.preco = preco;
     }
 
@@ -58,14 +61,6 @@ public class Livro {
         this.sinopse = sinopse;
     }
 
-    public LocalDate getDataPublicacao() {
-        return dataPublicacao;
-    }
-
-    public void setDataPublicacao(LocalDate dataPublicacao) {
-        this.dataPublicacao = dataPublicacao;
-    }
-
     public String getEditora() {
         return editora;
     }
@@ -80,5 +75,13 @@ public class Livro {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public double getPesoLivro() {
+        return this.numPaginas * 0.4;
+    }
+
+    public void setNumPaginas(int numPaginas) {
+        this.numPaginas = numPaginas;
     }
 }
