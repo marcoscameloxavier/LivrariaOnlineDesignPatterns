@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,12 +14,38 @@ import org.json.JSONObject;
 import pucpr.livraria.config.APIConfig;
 import pucpr.livraria.entity.Livro;
 
+import javax.net.ssl.*;
+
 public class LivroDAO {
     //executa as consultas
     private final APIConfig config;
 
     public LivroDAO() {
         this.config = APIConfig.getInstancia();
+        ignorarCertificadosSSL();  // Chamar o método para ignorar a verificação de certificados SSL
+    }
+
+    private void ignorarCertificadosSSL() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return null;
+                        }
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+                    }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            HostnameVerifier allHostsValid = (hostname, session) -> true;
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Livro> buscarLivros(String query) {
