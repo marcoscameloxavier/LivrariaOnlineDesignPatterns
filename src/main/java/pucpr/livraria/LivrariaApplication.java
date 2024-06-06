@@ -6,9 +6,8 @@ import pucpr.livraria.entity.Cliente;
 import pucpr.livraria.entity.Livro;
 import pucpr.livraria.entity.Pedido;
 import pucpr.livraria.facade.LivrariaFachada;
-import pucpr.livraria.notificacao.ConcreteNotificacaoFactory;
-import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.NotificacaoFactory;
+import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.TipoNotificacao;
 import pucpr.livraria.processamentoPedido.*;
 
@@ -19,35 +18,36 @@ public class LivrariaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LivrariaApplication.class, args);
-		//Exemplo de uso do padrão Factory Method
 
-		//Cliente(String nome, String email, String telefone, String endereco, String cpf, String senha)
+		// Padrão Factory Method
+		System.out.println("\n------Exemplo de uso do padrão Factory Method:------");
+
 		Cliente cliente = new Cliente("João", "joao@example.com", "(61)99314-8541", "Rua A, 123", "123.456.789-00", "12345-678");
-		NotificacaoFactory factory = new ConcreteNotificacaoFactory();
+		NotificacaoFactory factory = NotificacaoFactory.getFactory(TipoNotificacao.EMAIL);
+		Notificacao notificacao = factory.criarNotificacao();
 
-	//tirar a dúvida com professor se isso é abstract factory ou o factory method?
-	//	Notificacao notificacaoEmail = factory.criarNotificacao(TipoNotificacao.EMAIL);
-	//	notificacaoEmail.enviar("Bem-vindo à nossa livraria!", cliente);
+		notificacao.enviar("Bem-vindo à nossa livraria!", cliente);
+		System.out.println("Mensagem enviada por email.\n");
 
-		factory.criarNotificacao(TipoNotificacao.EMAIL).enviar("Bem-vindo à nossa livraria!", cliente);
-
-		Notificacao notificacaoSMS = factory.criarNotificacao(TipoNotificacao.SMS);
+		Notificacao notificacaoSMS = NotificacaoFactory.getFactory(TipoNotificacao.SMS).criarNotificacao();
 		notificacaoSMS.enviar("Seu pedido foi enviado.", cliente);
+		System.out.println("Mensagem enviada por SMS.\n");
 
-		Notificacao notificacaoWhatsApp = factory.criarNotificacao(TipoNotificacao.WHATSAPP);
+		Notificacao notificacaoWhatsApp = NotificacaoFactory.getFactory(TipoNotificacao.WHATSAPP).criarNotificacao();;
 		notificacaoWhatsApp.enviar("Seu pedido será entregue amanhã.", cliente);
+		System.out.println("Mensagem enviada por WhatsApp.\n");
 
-
-		// Uso do DAO
+		// Padrões Facade e DAO
+		System.out.println("\n------Exemplo de uso do padrão Facade e DAO:------");
 		LivrariaFachada fachada = new LivrariaFachada();
-		//Tá dando erro, precisa investigar esse código
 		List<Livro> livros = fachada.buscarLivrosPorAutor("Design");
 
 		for (Livro livro : livros) {
 			System.out.println("Título: " + livro.getTitulo());
-			// Outros atributos do livro
 		}
 
+		// Padrão Chain of Responsibility
+		System.out.println("\n------Exemplo de uso do padrão Chain of Responsibility:------");
 		Pedido pedido = new Pedido();
 		ProcessamentoPedido acompanhamentoPedido = getChainOfResponsibility();
 		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
