@@ -1,5 +1,6 @@
 package pucpr.livraria.facade;
 
+import org.springframework.stereotype.Service;
 import pucpr.livraria.dao.ClienteDAO;
 import pucpr.livraria.dao.LivroDAO;
 import pucpr.livraria.dao.PedidoDAO;
@@ -9,6 +10,7 @@ import pucpr.livraria.entity.Pedido;
 
 import java.util.List;
 
+@Service
 public class LivrariaFachada {
     private LivroDAO livroDAO;
     private PedidoDAO pedidoDAO;
@@ -30,7 +32,14 @@ public class LivrariaFachada {
     }
 
     public List<Livro> buscarLivrosPorAutor(String autor) {
-       // return livroDAO.buscarPorAutor(autor);
-        return livroDAO.buscarLivros(autor);
+        return livroDAO.buscarLivrosPorAutor(autor);
+    }
+
+    public List<Livro> buscarLivrosPorTitulo(String titulo) {
+        return livroDAO.buscarLivrosPorTitulo(titulo);
+    }
+
+    public List<Livro> buscarLivrosPorGenero(String genero) {
+        return livroDAO.buscarLivrosPorGenero(genero);
     }
 }

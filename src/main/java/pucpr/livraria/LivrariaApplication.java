@@ -40,10 +40,12 @@ public class LivrariaApplication {
 		// Padrões Facade e DAO
 		System.out.println("\n------Exemplo de uso do padrão Facade e DAO:------");
 		LivrariaFachada fachada = new LivrariaFachada();
-		List<Livro> livros = fachada.buscarLivrosPorAutor("Design");
+		System.out.println("Buscando livros pelo título 'Design Patterns':");
+		List<Livro> livros = fachada.buscarLivrosPorTitulo("Design Patterns");
 
 		for (Livro livro : livros) {
 			System.out.println("Título: " + livro.getTitulo());
+			System.out.println("Autor: " + livro.getAutor());
 		}
 
 		// Padrão Chain of Responsibility

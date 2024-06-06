@@ -11,6 +11,8 @@ public class Livro {
     private String editora;
     private double preco;
     private int numPaginas;
+    private String dataPublicacao;
+    private String previewLink;
 
     public Livro(){
     }
@@ -83,5 +85,21 @@ public class Livro {
 
     public void setNumPaginas(int numPaginas) {
         this.numPaginas = numPaginas;
+    }
+
+    public String getDataPublicacao() {
+        return dataPublicacao;
+    }
+
+    public void setDataPublicacao(String dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
+    }
+
+    public String getPreviewLink() {
+        return previewLink;
+    }
+
+    public void setPreviewLink(String previewLink) {
+        this.previewLink = previewLink;
     }
 }

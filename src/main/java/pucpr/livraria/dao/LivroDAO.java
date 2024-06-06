@@ -17,12 +17,11 @@ import pucpr.livraria.entity.Livro;
 import javax.net.ssl.*;
 
 public class LivroDAO {
-    //executa as consultas
     private final APIConfig config;
 
     public LivroDAO() {
         this.config = APIConfig.getInstancia();
-        ignorarCertificadosSSL();  // Chamar o método para ignorar a verificação de certificados SSL
+        ignorarCertificadosSSL();  // Chamar o método para ignorar a verificação de certificados SSL, se necessário
     }
 
     private void ignorarCertificadosSSL() {
@@ -49,8 +48,27 @@ public class LivroDAO {
     }
 
     public List<Livro> buscarLivros(String query) {
+        return buscarLivrosPorQuery(query.replace(" ", "%20"));
+    }
+
+    public List<Livro> buscarLivrosPorAutor(String autor) {
+        String query = "inauthor:" + autor.replace(" ", "%20");
+        return buscarLivrosPorQuery(query);
+    }
+
+    public List<Livro> buscarLivrosPorTitulo(String titulo) {
+        String query = "intitle:" + titulo.replace(" ", "%20");
+        return buscarLivrosPorQuery(query);
+    }
+
+    public List<Livro> buscarLivrosPorGenero(String genero) {
+        String query = "subject:" + genero.replace(" ", "%20");
+        return buscarLivrosPorQuery(query);
+    }
+
+    private List<Livro> buscarLivrosPorQuery(String query) {
         List<Livro> livros = new ArrayList<>();
-        String urlString = config.getApiUrl() + "/volumes?q=" + query.replace(" ", "%20") + "&key=" + config.getApiKey();
+        String urlString = config.getApiUrl() + "/volumes?q=" + query + "&maxResults=40&filter=partial&key=" + config.getApiKey();
 
         try {
             URL url = new URL(urlString);
@@ -93,7 +111,9 @@ public class LivroDAO {
                     livro.setAutor(volumeInfo.has("authors") ? volumeInfo.getJSONArray("authors").join(", ").replaceAll("\"", "") : null);
                     livro.setGenero(volumeInfo.has("categories") ? volumeInfo.getJSONArray("categories").join(", ").replaceAll("\"", "") : null);
                     livro.setSinopse(volumeInfo.has("description") ? volumeInfo.getString("description") : null);
+                    livro.setDataPublicacao(volumeInfo.has("publishedDate") ? volumeInfo.getString("publishedDate") : null);
                     livro.setEditora(volumeInfo.has("publisher") ? volumeInfo.getString("publisher") : null);
+                    livro.setPreviewLink(volumeInfo.has("previewLink") ? volumeInfo.getString("previewLink") : null);
 
                     // Pegar o preço do livro
                     if (saleInfo.has("retailPrice")) {
