@@ -7,6 +7,7 @@ public class Cliente {
     private String endereco;
     private String cpf;
     private String cep;
+    private ListaInteresses listaInteresses;
 
     public Cliente(String nome, String email, String telefone, String endereco, String cpf, String cep) {
         this.nome = nome;
@@ -41,4 +42,35 @@ public class Cliente {
         return cep;
     }
 
+    public ListaInteresses getListaInteresses() {
+        return listaInteresses;
+    }
+
+    public void setListaInteresses(ListaInteresses listaInteresses) {
+        this.listaInteresses = listaInteresses;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
 }

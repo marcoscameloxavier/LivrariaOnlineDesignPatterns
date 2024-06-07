@@ -73,4 +73,15 @@ public class LivrariaFachada {
         return pagamentoEfetuado;
     }
 
+    public Cliente buscarClientePorCPF(String cpf) {
+        return clienteDAO.buscarClientePorCPF(cpf);
+    }
+
+    public List<Cliente> buscarClientes() {
+        return clienteDAO.buscarClientes();
+    }
+
+    public void atualizarCliente(Cliente cliente) {
+        clienteDAO.atualizarCliente(cliente);
+    }
 }
