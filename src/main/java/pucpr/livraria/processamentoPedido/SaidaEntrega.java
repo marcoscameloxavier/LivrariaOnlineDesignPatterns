@@ -9,7 +9,7 @@ public class SaidaEntrega extends ProcessamentoPedido{
 
     @Override
     public void processar(Pedido pedido) {
-        System.out.println("Seu pedido saiu para entrega!");
+        System.out.printf("Seu pedido saiu para entrega para o endereço %s! \n", pedido.getCliente().getEndereco());
         if (proximo != null) {
             proximo.processar(pedido);
         }

@@ -10,6 +10,8 @@ import pucpr.livraria.notificacao.NotificacaoFactory;
 import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.TipoNotificacao;
 import pucpr.livraria.processamentoPedido.*;
+import pucpr.livraria.strategy.EntregaEconomica;
+import pucpr.livraria.strategy.EntregaRapida;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class LivrariaApplication {
 		// Padrão Factory Method
 		System.out.println("\n------Exemplo de uso do padrão Factory Method:------");
 
-		Cliente cliente = new Cliente("João", "joao@example.com", "(61)99314-8541", "Rua A, 123", "123.456.789-00", "12345-678");
+		Cliente cliente = new Cliente("João", "joao@example.com", "(61)99314-8541", "Avenida das Nações, Bloco B, Casa 20", "123.456.789-00", "12345-678");
 		NotificacaoFactory factory = NotificacaoFactory.getFactory(TipoNotificacao.EMAIL);
 		Notificacao notificacao = factory.criarNotificacao();
 
@@ -39,40 +41,28 @@ public class LivrariaApplication {
 		System.out.println("Mensagem enviada por WhatsApp.\n");
 
 		// Padrões Facade e DAO
-		System.out.println("\n------Exemplo de uso do padrão Facade e DAO:------");
+		System.out.println("\n------Exemplo de uso do padrão Facade, DAO e Singleton(dados da API):------");
 		LivrariaFachada fachada = new LivrariaFachada();
 		System.out.println("Buscando livros pelo título 'Design Patterns':");
 		List<Livro> livros = fachada.buscarLivrosPorTitulo("Design Patterns");
 
 		for (Livro livro : livros) {
 			System.out.println("Título: " + livro.getTitulo());
-			System.out.println("Autor: " + livro.getAutor());
+			System.out.printf("Preço: R$%.2f com %d páginas\n",livro.getPreco(), livro.getNumPaginas());
 		}
 
 		// Padrão Chain of Responsibility
-		System.out.println("\n------Exemplo de uso do padrão Chain of Responsibility:------");
+		System.out.println("\n------Exemplo de uso do padrão Chain of Responsibility + Strategy(cálculo do frete):------");
 
-		Pedido pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros);
+		System.out.println("\nCriando pedido para o cliente " + cliente.getNome() + " com Entrega Econômica:");
+		Pedido pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros, new EntregaEconomica());
 
-		ProcessamentoPedido acompanhamentoPedido = getChainOfResponsibility();
+		ProcessamentoPedido acompanhamentoPedido = LivrariaFachada.getChainOfResponsibility();
+		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+
+		System.out.println("\nDemonstração do mesmo pedido com Entrega Rápida:");
+		pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros, new EntregaRapida());
+
 		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
 	}
-
-	// Perguntar ao professor qual o melhor local para colocar esse método
-	private static ProcessamentoPedido getChainOfResponsibility() {
-
-		ProcessamentoPedido pagamentoEfetuado = new PagamentoPedido();
-		ProcessamentoPedido emissaoNF = new EmissaoNF();
-		ProcessamentoPedido entregaTransportador = new EntregaTransportador();
-		ProcessamentoPedido saidaEntrega = new SaidaEntrega();
-		ProcessamentoPedido entregaRealizada = new EntregaRealizada();
-
-		pagamentoEfetuado.setProximo(emissaoNF);
-		emissaoNF.setProximo(entregaTransportador);
-		entregaTransportador.setProximo(saidaEntrega);
-		saidaEntrega.setProximo(entregaRealizada);
-
-		return pagamentoEfetuado;
-	}
-
 }

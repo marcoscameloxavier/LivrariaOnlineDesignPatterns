@@ -32,11 +32,32 @@ public class Pedido {
     }
 
 
-    public double calcularCustoEnvio() {
+    private double calcularCustoEnvio() {
         return entregaStrategy.calcularCustoEnvio(this);
     }
 
     public void setEntregaStrategy(EntregaStrategy entregaStrategy) {
         this.entregaStrategy = entregaStrategy;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public ArrayList<Livro> getListaLivro() {
+        return listaLivro;
+    }
+
+    public double getValorTotal() {
+        double valorTotal = 0;
+        for (int i = 0; i<listaLivro.size(); i++) {
+            valorTotal += listaLivro.get(i).getPreco();
+        }
+        valorTotal += calcularCustoEnvio();
+        return valorTotal;
+    }
+
+    public double getValorFrete() {
+        return this.calcularCustoEnvio();
     }
 }

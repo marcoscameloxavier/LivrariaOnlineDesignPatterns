@@ -102,4 +102,8 @@ public class Livro {
     public void setPreviewLink(String previewLink) {
         this.previewLink = previewLink;
     }
+
+    public int getNumPaginas() {
+        return numPaginas;
+    }
 }

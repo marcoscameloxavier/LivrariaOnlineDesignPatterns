@@ -7,6 +7,8 @@ import pucpr.livraria.dao.PedidoDAO;
 import pucpr.livraria.entity.Cliente;
 import pucpr.livraria.entity.Livro;
 import pucpr.livraria.entity.Pedido;
+import pucpr.livraria.processamentoPedido.*;
+import pucpr.livraria.strategy.EntregaStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +46,31 @@ public class LivrariaFachada {
         return livroDAO.buscarLivrosPorGenero(genero);
     }
 
-    public Pedido criarPedido(Cliente cliente, ArrayList<Livro> listaLivros){
+    public Pedido criarPedido(Cliente cliente, ArrayList<Livro> listaLivros, EntregaStrategy tipoEntrega) {
         Pedido pedido = new Pedido(cliente, listaLivros);
+        pedido.setEntregaStrategy(tipoEntrega);
         this.pedidoDAO.inserirPedido(pedido);
         return pedido;
     }
 
     public ArrayList<Pedido> recuperarPedidos() {
         return this.pedidoDAO.recuperarPedidos();
+    }
+
+    public static ProcessamentoPedido getChainOfResponsibility() {
+
+        ProcessamentoPedido pagamentoEfetuado = new PagamentoPedido();
+        ProcessamentoPedido emissaoNF = new EmissaoNF();
+        ProcessamentoPedido entregaTransportador = new EntregaTransportador();
+        ProcessamentoPedido saidaEntrega = new SaidaEntrega();
+        ProcessamentoPedido entregaRealizada = new EntregaRealizada();
+
+        pagamentoEfetuado.setProximo(emissaoNF);
+        emissaoNF.setProximo(entregaTransportador);
+        entregaTransportador.setProximo(saidaEntrega);
+        saidaEntrega.setProximo(entregaRealizada);
+
+        return pagamentoEfetuado;
     }
 
 }

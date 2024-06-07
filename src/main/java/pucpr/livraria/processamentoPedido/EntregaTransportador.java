@@ -9,8 +9,7 @@ public class EntregaTransportador extends ProcessamentoPedido{
 
     @Override
     public void processar(Pedido pedido) {
-        System.out.println("Pedido entregue ao transportador");
-        // Entrega pelo transportador
+        System.out.printf("Pedido entregue ao transportador. Peso total do pedido: %.2f kg \n", pedido.getPeso()/1000);
         if (proximo != null) {
             proximo.processar(pedido);
         }

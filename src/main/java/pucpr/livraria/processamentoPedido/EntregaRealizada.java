@@ -11,6 +11,6 @@ public class EntregaRealizada extends ProcessamentoPedido{
     @Override
     public void processar(Pedido pedido) {
         // Entrega realizada
-        System.out.println("Entrega realizada com sucesso");
+        System.out.printf("Entrega do cliente %s realizada com sucesso\n", pedido.getCliente().getNome());
     }
 }

@@ -68,7 +68,7 @@ public class LivroDAO {
 
     private List<Livro> buscarLivrosPorQuery(String query) {
         List<Livro> livros = new ArrayList<>();
-        String urlString = config.getApiUrl() + "/volumes?q=" + query + "&maxResults=40&filter=partial&key=" + config.getApiKey();
+        String urlString = config.getApiUrl() + "/volumes?q=" + query + "&maxResults=10&filter=partial&key=" + config.getApiKey();
 
         try {
             URL url = new URL(urlString);
@@ -120,7 +120,7 @@ public class LivroDAO {
                         JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
                         livro.setPreco(retailPrice.getDouble("amount"));
                     } else {
-                        livro.setPreco(0.0);
+                        livro.setPreco(10.90);
                     }
 
                     livros.add(livro);
