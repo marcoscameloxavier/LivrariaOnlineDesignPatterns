@@ -8,6 +8,7 @@ import pucpr.livraria.entity.Cliente;
 import pucpr.livraria.entity.Livro;
 import pucpr.livraria.entity.Pedido;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,4 +43,15 @@ public class LivrariaFachada {
     public List<Livro> buscarLivrosPorGenero(String genero) {
         return livroDAO.buscarLivrosPorGenero(genero);
     }
+
+    public Pedido criarPedido(Cliente cliente, ArrayList<Livro> listaLivros){
+        Pedido pedido = new Pedido(cliente, listaLivros);
+        this.pedidoDAO.inserirPedido(pedido);
+        return pedido;
+    }
+
+    public ArrayList<Pedido> recuperarPedidos() {
+        return this.pedidoDAO.recuperarPedidos();
+    }
+
 }

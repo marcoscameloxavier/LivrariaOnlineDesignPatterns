@@ -11,6 +11,7 @@ import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.TipoNotificacao;
 import pucpr.livraria.processamentoPedido.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -50,7 +51,9 @@ public class LivrariaApplication {
 
 		// Padrão Chain of Responsibility
 		System.out.println("\n------Exemplo de uso do padrão Chain of Responsibility:------");
-		Pedido pedido = new Pedido();
+
+		Pedido pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros);
+
 		ProcessamentoPedido acompanhamentoPedido = getChainOfResponsibility();
 		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
 	}
