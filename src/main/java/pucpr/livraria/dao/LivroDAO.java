@@ -114,6 +114,13 @@ public class LivroDAO {
                     livro.setDataPublicacao(volumeInfo.has("publishedDate") ? volumeInfo.getString("publishedDate") : null);
                     livro.setEditora(volumeInfo.has("publisher") ? volumeInfo.getString("publisher") : null);
                     livro.setPreviewLink(volumeInfo.has("previewLink") ? volumeInfo.getString("previewLink") : null);
+                    // setar capa do livro
+                    if (volumeInfo.has("imageLinks")) {
+                        JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                        livro.setCapa(imageLinks.getString("thumbnail"));
+                    } else {
+                        livro.setCapa("img/capaDefault.png");
+                    }
 
                     // Pegar o preço do livro
                     if (saleInfo.has("retailPrice")) {

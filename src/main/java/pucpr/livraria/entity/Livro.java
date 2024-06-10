@@ -13,6 +13,7 @@ public class Livro {
     private int numPaginas;
     private String dataPublicacao;
     private String previewLink;
+    private String capa;
 
     public Livro(){
     }
@@ -105,5 +106,13 @@ public class Livro {
 
     public int getNumPaginas() {
         return numPaginas;
+    }
+
+    public String getCapa() {
+        return capa;
+    }
+
+    public void setCapa(String capa) {
+        this.capa = capa;
     }
 }

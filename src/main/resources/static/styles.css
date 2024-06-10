@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 30%;
+    background-color: #ddd;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.main {
+    width: 70%;
+    padding: 20px;
+}
+
+h2 {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    margin: 0 0 20px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label, input, button {
+    margin-bottom: 10px;
+}
+
+#emails {
+    margin-top: 20px;
+}
+
+.email {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.livro {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.livro h2 {
+    margin: 0 0 10px 0;
+}
