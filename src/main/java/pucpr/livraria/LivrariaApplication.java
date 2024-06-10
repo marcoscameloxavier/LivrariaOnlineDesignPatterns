@@ -12,6 +12,7 @@ import pucpr.livraria.notificacao.TipoNotificacao;
 import pucpr.livraria.processamentoPedido.*;
 import pucpr.livraria.strategy.EntregaEconomica;
 import pucpr.livraria.strategy.EntregaRapida;
+import pucpr.livraria.strategy.EntregaSedex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class LivrariaApplication {
 		System.out.println("\n------Exemplo de uso do padrão Facade, DAO e Singleton(dados da API):------");
 
 		System.out.println("Buscando livros pelo título 'Design Patterns':");
-		List<Livro> livros = fachada.buscarLivrosPorTitulo("Design Patterns");
+		List<Livro> livros = fachada.buscarLivros("Design Patterns");
 
 		for (Livro livro : livros) {
 			System.out.println("Título: " + livro.getTitulo());
@@ -65,6 +66,10 @@ public class LivrariaApplication {
 
 		System.out.println("\nDemonstração do mesmo pedido com Entrega Rápida:");
 		pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros, new EntregaRapida());
+		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+
+		System.out.println("\nDemonstração do mesmo pedido com Entrega Sedex:");
+		pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros, new EntregaSedex());
 
 		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
 	}

@@ -46,6 +46,10 @@ public class LivrariaFachada {
         return livroDAO.buscarLivrosPorGenero(genero);
     }
 
+    public List<Livro> buscarLivros(String query) {
+        return livroDAO.buscarLivros(query);
+    }
+
     public Pedido criarPedido(Cliente cliente, ArrayList<Livro> listaLivros, EntregaStrategy tipoEntrega) {
         Pedido pedido = new Pedido(cliente, listaLivros);
         pedido.setEntregaStrategy(tipoEntrega);

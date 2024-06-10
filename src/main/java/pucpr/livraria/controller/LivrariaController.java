@@ -8,15 +8,21 @@ import pucpr.livraria.dto.LivroEmailDTO;
 import pucpr.livraria.entity.Cliente;
 import pucpr.livraria.entity.ListaInteresses;
 import pucpr.livraria.entity.Livro;
+import pucpr.livraria.entity.Pedido;
 import pucpr.livraria.facade.LivrariaFachada;
 import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.NotificacaoFactory;
 import pucpr.livraria.notificacao.NotificacaoRequest;
 import pucpr.livraria.notificacao.TipoNotificacao;
+import pucpr.livraria.processamentoPedido.PedidoRequest;
+import pucpr.livraria.processamentoPedido.ProcessamentoPedido;
+import pucpr.livraria.strategy.EntregaStrategy;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -120,8 +126,37 @@ public class LivrariaController {
 
         NotificacaoFactory factory = NotificacaoFactory.getFactory(tipo);
         Notificacao notificacao = factory.criarNotificacao();
-        notificacao.enviar(mensagem, cliente);
+        String mensagemEnviada = notificacao.enviar(mensagem, cliente);
 
-        return ResponseEntity.ok(Collections.singletonMap("resultado", "Notificação enviada via " + tipo.name().toLowerCase() + "."));
+        return ResponseEntity.ok(Collections.singletonMap("resultado", "Notificação enviada via " + tipo.name().toLowerCase() + ".<br/>" + mensagemEnviada));
     }
+
+    @GetMapping("/livros/{query}")
+    public ResponseEntity<List<Livro>> getLivros(@PathVariable String query) {
+        List<Livro> livros = livrariaFachada.buscarLivros(query);
+        return ResponseEntity.ok(livros);
+    }
+
+    @PostMapping("/enviarPedido")
+    public ResponseEntity<Pedido> enviarPedido(@RequestBody PedidoRequest pedidoRequest) {
+        Cliente cliente = livrariaFachada.buscarClientePorCPF(pedidoRequest.getCpf());
+        Pedido pedido = livrariaFachada.criarPedido(cliente, (ArrayList<Livro>) pedidoRequest.getLivros(), pedidoRequest.getEntrega());
+        cliente.addPedido(pedido);
+        return ResponseEntity.ok(pedido);
+    }
+
+    @PostMapping("/processarPedido")
+    public ResponseEntity<Map<String, String>> processarPedido(@RequestBody Map<String, String> request) {
+        String cpf = request.get("cpf");
+        Cliente cliente = livrariaFachada.buscarClientePorCPF(cpf);
+        List<Pedido> pedidos = cliente.getPedidos(); // assumindo que Cliente tem uma lista de pedidos
+        Pedido pedido = pedidos.get(pedidos.size() - 1); // pega o último pedido para processar
+
+        ProcessamentoPedido acompanhamentoPedido = LivrariaFachada.getChainOfResponsibility();
+        acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+
+        return ResponseEntity.ok(Collections.singletonMap("resultado", "Pedido processado com sucesso."));
+    }
+
+
 }

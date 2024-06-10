@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Pedido</title>
+    <link rel="stylesheet" href="styles_pedido.css">
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <h3>Projeto Design Patterns - Livraria</h3>
+        <nav id="menu-principal">
+            <a href="index.html">Busca de Livros</a>
+            <a href="interesses.html">Interesses (SSE e DTO)</a>
+            <a href="notificacoes.html">Notificações (Factory Method)</a>
+            <a href="pedido.html">Pedido (Strategy e Chain of Responsibility)</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="pedido-container">
+        <h2>Realizar Pedido</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Digite aqui para buscar livros...">
+            <button type="button" id="searchButton">Buscar</button>
+        </div>
+        <div id="livrosContainer">
+            <!-- Resultados da busca serão adicionados aqui -->
+        </div>
+        <div class="pedido-options">
+            <label for="tipoEntrega">Tipo de Entrega:</label>
+            <select id="tipoEntrega">
+                <option value="ECONOMICA">Entrega Econômica</option>
+                <option value="RAPIDA">Entrega Rápida</option>
+                <option value="SEDEX">Entrega Sedex</option>
+            </select>
+            <button type="button" id="criarPedidoButton">Criar Pedido</button>
+            <button type="button" id="processarPedidoButton">Processar Pedido</button>
+        </div>
+        <div id="resultadoPedido">
+            <!-- Resultados do pedido serão exibidos aqui -->
+        </div>
+    </div>
+</main>
+<script src="scripts_pedido.js"></script>
+</body>
+</html>

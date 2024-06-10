@@ -1,0 +1,138 @@
+:root {
+    --cor-principal-barras: #3E5962;
+    --cor-texto-principal: #172930;
+    --cor-texto-secundario: #73797f;
+    --cor-texto-barra: #FCF9F6;
+    --fonte-principal-barras: #3E5962;
+    --cor-hover: #85a99d;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--cor-principal-barras);
+    color: var(--cor-texto-barra);
+}
+
+nav a {
+    color: var(--cor-texto-barra);
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+nav a:hover {
+    background-color: var(--cor-hover);
+}
+
+main {
+    padding: 20px;
+}
+
+.pedido-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: var(--cor-texto-principal);
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.search-container button {
+    padding: 10px;
+    background-color: var(--cor-principal-barras);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-container button:hover {
+    background-color: var(--cor-hover);
+}
+
+#livrosContainer {
+    margin-bottom: 20px;
+}
+
+.livro-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.livro-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.livro-card p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.pedido-options {
+    margin-bottom: 20px;
+}
+
+.pedido-options label {
+    margin-right: 10px;
+}
+
+.pedido-options select,
+.pedido-options button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.pedido-options button {
+    background-color: var(--cor-principal-barras);
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    margin-right: 10px;
+}
+
+.pedido-options button:hover {
+    background-color: var(--cor-hover);
+}
+
+#resultadoPedido {
+    margin-top: 20px;
+    color: var(--cor-texto-principal);
+}

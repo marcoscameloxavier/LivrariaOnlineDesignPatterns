@@ -1,5 +1,8 @@
 package pucpr.livraria.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente {
     private String nome;
     private String email;
@@ -9,6 +12,8 @@ public class Cliente {
     private String cep;
     private ListaInteresses listaInteresses;
 
+    private List<Pedido> pedidos;
+
     public Cliente(String nome, String email, String telefone, String endereco, String cpf, String cep) {
         this.nome = nome;
         this.email = email;
@@ -16,6 +21,7 @@ public class Cliente {
         this.endereco = endereco;
         this.cpf = cpf;
         this.cep = cep;
+        this.pedidos = new ArrayList<Pedido>();
     }
 
     public String getNome() {
@@ -72,5 +78,13 @@ public class Cliente {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void addPedido(Pedido pedido) {
+        this.pedidos.add(pedido);
     }
 }
