@@ -22,10 +22,13 @@ public class LivrariaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LivrariaApplication.class, args);
 
+		LivrariaFachada fachada = new LivrariaFachada();
+
 		// Padrão Factory Method
 		System.out.println("\n------Exemplo de uso do padrão Factory Method:------");
 
 		Cliente cliente = new Cliente("João", "joao@example.com", "(61)99314-8541", "Avenida das Nações, Bloco B, Casa 20", "123.456.789-00", "12345-678");
+		cliente = fachada.cadastrarCliente(cliente);
 		NotificacaoFactory factory = NotificacaoFactory.getFactory(TipoNotificacao.EMAIL);
 		Notificacao notificacao = factory.criarNotificacao();
 
@@ -42,7 +45,7 @@ public class LivrariaApplication {
 
 		// Padrões Facade e DAO
 		System.out.println("\n------Exemplo de uso do padrão Facade, DAO e Singleton(dados da API):------");
-		LivrariaFachada fachada = new LivrariaFachada();
+
 		System.out.println("Buscando livros pelo título 'Design Patterns':");
 		List<Livro> livros = fachada.buscarLivrosPorTitulo("Design Patterns");
 

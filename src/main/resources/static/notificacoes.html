@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio de Notificações</title>
+    <link rel="stylesheet" href="styles_notificacoes.css">
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <h3>Projeto Design Patterns - Livraria</h3>
+        <nav id="menu-principal">
+            <a href="index.html">Busca de Livros</a>
+            <a href="interesses.html">Interesses (SSE e DTO)</a>
+            <a href="notificacoes.html">Notificações (Factory Method)</a>
+            <a href="pedido.html">Pedido (Strategy e Chain of Responsibility)</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="notification-form">
+        <h2>Envio de Notificações</h2>
+        <form id="notificationForm">
+            <label for="nomeCliente">Nome:</label>
+            <input type="text" id="nomeCliente" name="nomeCliente" value="João" required>
+            <label for="emailCliente">Email:</label>
+            <input type="email" id="emailCliente" name="emailCliente" value="joao@example.com" required>
+            <label for="telefoneCliente">Telefone:</label>
+            <input type="text" id="telefoneCliente" name="telefoneCliente" value="(61)99314-8541" required>
+            <label for="enderecoCliente">Endereço:</label>
+            <input type="text" id="enderecoCliente" name="enderecoCliente" value="Avenida das Nações, Bloco B, Casa 20" required>
+            <label for="cpfCliente">CPF:</label>
+            <input type="text" id="cpfCliente" name="cpfCliente" value="123.456.789-00" required>
+            <label for="cepCliente">CEP:</label>
+            <input type="text" id="cepCliente" name="cepCliente" value="12345-678" required>
+            <label for="tipoNotificacao">Tipo de Notificação:</label>
+            <select id="tipoNotificacao" name="tipoNotificacao">
+                <option value="EMAIL">Email</option>
+                <option value="SMS">SMS</option>
+                <option value="WHATSAPP">WhatsApp</option>
+            </select>
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" rows="4" required>Bem-vindo à nossa livraria!</textarea>
+            <button type="button" id="sendButton">Enviar Notificação</button>
+        </form>
+        <div id="resultado">
+            <!-- Resultados da notificação serão exibidos aqui -->
+        </div>
+    </div>
+</main>
+<script src="scripts_notificacoes.js"></script>
+</body>
+</html>

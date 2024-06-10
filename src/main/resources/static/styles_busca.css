@@ -93,7 +93,7 @@ body {
 }
 
 .livro-card strong {
-    color: #e60000;
+    color: var(--cor-principal-barras);
 }
 
 nav a {

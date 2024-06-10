@@ -40,4 +40,9 @@ public class ClienteRepositorio {
             }
         }
     }
+
+    public Cliente salvar(Cliente cliente) {
+        this.clientes.add(cliente);
+        return cliente;
+    }
 }

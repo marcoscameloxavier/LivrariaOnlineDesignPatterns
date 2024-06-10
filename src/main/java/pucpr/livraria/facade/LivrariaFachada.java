@@ -25,8 +25,8 @@ public class LivrariaFachada {
         this.clienteDAO = new ClienteDAO();
     }
 
-    public void cadastrarCliente(Cliente cliente) {
-        //clienteDAO.salvar(cliente);
+    public Cliente cadastrarCliente(Cliente cliente) {
+        return clienteDAO.salvar(cliente);
     }
 
     public void realizarPedido(Pedido pedido) {

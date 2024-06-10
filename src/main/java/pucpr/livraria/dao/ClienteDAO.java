@@ -24,4 +24,8 @@ public class ClienteDAO {
     public void atualizarCliente(Cliente cliente) {
         this.repositorioClientes.atualizarCliente(cliente);
     }
+
+    public Cliente salvar(Cliente cliente) {
+        return this.repositorioClientes.salvar(cliente);
+    }
 }
