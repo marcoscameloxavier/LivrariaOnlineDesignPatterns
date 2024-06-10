@@ -29,20 +29,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const livros = JSON.parse(event.data);
             const emailDiv = document.createElement('div');
             emailDiv.classList.add('email');
-            emailDiv.innerText = 'Nova recomendação recebida';
+
+            const emailContent = document.createElement('div');
+            emailContent.classList.add('email-content');
+            emailContent.innerText = 'Nova recomendação recebida';
+
+            const emailTime = document.createElement('div');
+            emailTime.classList.add('email-time');
+            const now = new Date();
+            emailTime.innerText = `${now.getHours()}:${('0' + now.getMinutes()).slice(-2)}`;
+
+            emailDiv.appendChild(emailContent);
+            emailDiv.appendChild(emailTime);
+
             emailDiv.addEventListener('click', () => {
                 livrosDiv.innerHTML = '';
                 livros.forEach(livro => {
                     const livroDiv = document.createElement('div');
                     livroDiv.classList.add('livro');
                     livroDiv.innerHTML = `
-                        <h2>${livro.titulo}</h2>
-                        <p><strong>Preço:</strong> R$${livro.preco.toFixed(2)}</p>
-                        <p><a href="${livro.previewLink}" target="_blank">Preview do Livro</a></p>
+                        <img src="${livro.capa}" alt="Capa do livro">
+                        <div>
+                            <h4>${livro.titulo}</h4>
+                            <p><strong>Preço:</strong> R$${livro.preco.toFixed(2)}</p>
+                            <p><a href="${livro.previewLink}" target="_blank">Preview do Livro</a></p>
+                        </div>
                     `;
                     livrosDiv.appendChild(livroDiv);
                 });
             });
+
             emailsDiv.appendChild(emailDiv);
         };
 

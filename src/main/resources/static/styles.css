@@ -11,7 +11,7 @@ body {
 
 .sidebar {
     width: 30%;
-    background-color: #ddd;
+    background-color: #f1f1f1;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
@@ -37,6 +37,27 @@ label, input, button {
     margin-bottom: 10px;
 }
 
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
 #emails {
     margin-top: 20px;
 }
@@ -47,6 +68,25 @@ label, input, button {
     padding: 10px;
     margin-bottom: 10px;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.email:hover {
+    background-color: #eee;
+}
+
+.email .email-content {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.email .email-time {
+    font-size: 0.9em;
+    color: #666;
 }
 
 .livro {
@@ -54,9 +94,43 @@ label, input, button {
     border: 1px solid #ddd;
     margin: 10px 0;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.livro img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.livro div {
+    flex: 1;
 }
 
 .livro h2 {
     margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.livro p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.livro a {
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.livro a:hover {
+    text-decoration: underline;
+}
+
+.livro strong {
+    color: #e60000;
 }

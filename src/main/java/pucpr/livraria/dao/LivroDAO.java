@@ -1,5 +1,4 @@
 package pucpr.livraria.dao;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -97,40 +96,44 @@ public class LivroDAO {
 
                 // Parse the JSON response and convert it into a list of Livro objects
                 JSONObject jsonResponse = new JSONObject(inline);
-                JSONArray items = jsonResponse.getJSONArray("items");
-                for (int i = 0; i < items.length(); i++) {
-                    JSONObject item = items.getJSONObject(i);
-                    JSONObject volumeInfo = item.getJSONObject("volumeInfo");
-                    JSONObject saleInfo = item.getJSONObject("saleInfo");
+                if (jsonResponse.has("items")) {
+                    JSONArray items = jsonResponse.getJSONArray("items");
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject item = items.getJSONObject(i);
+                        JSONObject volumeInfo = item.getJSONObject("volumeInfo");
+                        JSONObject saleInfo = item.has("saleInfo") ? item.getJSONObject("saleInfo") : new JSONObject();
 
-                    Livro livro = new Livro();
-                    livro.setTitulo(volumeInfo.getString("title"));
-                    livro.setNumPaginas(volumeInfo.has("pageCount") ? volumeInfo.getInt("pageCount") : 0);
+                        Livro livro = new Livro();
+                        livro.setTitulo(volumeInfo.getString("title"));
+                        livro.setNumPaginas(volumeInfo.has("pageCount") ? volumeInfo.getInt("pageCount") : 0);
 
-                    // Preencher demais atributos
-                    livro.setAutor(volumeInfo.has("authors") ? volumeInfo.getJSONArray("authors").join(", ").replaceAll("\"", "") : null);
-                    livro.setGenero(volumeInfo.has("categories") ? volumeInfo.getJSONArray("categories").join(", ").replaceAll("\"", "") : null);
-                    livro.setSinopse(volumeInfo.has("description") ? volumeInfo.getString("description") : null);
-                    livro.setDataPublicacao(volumeInfo.has("publishedDate") ? volumeInfo.getString("publishedDate") : null);
-                    livro.setEditora(volumeInfo.has("publisher") ? volumeInfo.getString("publisher") : null);
-                    livro.setPreviewLink(volumeInfo.has("previewLink") ? volumeInfo.getString("previewLink") : null);
-                    // setar capa do livro
-                    if (volumeInfo.has("imageLinks")) {
-                        JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                        livro.setCapa(imageLinks.getString("thumbnail"));
-                    } else {
-                        livro.setCapa("img/capaDefault.png");
+                        // Preencher demais atributos
+                        livro.setAutor(volumeInfo.has("authors") ? volumeInfo.getJSONArray("authors").join(", ").replaceAll("\"", "") : null);
+                        livro.setGenero(volumeInfo.has("categories") ? volumeInfo.getJSONArray("categories").join(", ").replaceAll("\"", "") : null);
+                        livro.setSinopse(volumeInfo.has("description") ? volumeInfo.getString("description") : null);
+                        livro.setDataPublicacao(volumeInfo.has("publishedDate") ? volumeInfo.getString("publishedDate") : null);
+                        livro.setEditora(volumeInfo.has("publisher") ? volumeInfo.getString("publisher") : null);
+                        livro.setPreviewLink(volumeInfo.has("previewLink") ? volumeInfo.getString("previewLink") : null);
+                        // setar capa do livro
+                        if (volumeInfo.has("imageLinks")) {
+                            JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                            livro.setCapa(imageLinks.getString("thumbnail"));
+                        } else {
+                            livro.setCapa("img/capaDefault.png");
+                        }
+
+                        // Pegar o preço do livro
+                        if (saleInfo.has("retailPrice")) {
+                            JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
+                            livro.setPreco(retailPrice.getDouble("amount"));
+                        } else {
+                            livro.setPreco(10.90);
+                        }
+
+                        livros.add(livro);
                     }
-
-                    // Pegar o preço do livro
-                    if (saleInfo.has("retailPrice")) {
-                        JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
-                        livro.setPreco(retailPrice.getDouble("amount"));
-                    } else {
-                        livro.setPreco(10.90);
-                    }
-
-                    livros.add(livro);
+                } else {
+                    System.out.println("Nenhum livro encontrado para a query: " + query);
                 }
             }
         } catch (IOException e) {
