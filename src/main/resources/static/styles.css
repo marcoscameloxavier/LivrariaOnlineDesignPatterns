@@ -1,3 +1,12 @@
+:root{
+    --cor-principal-barras: #3E5962;
+    --cor-texto-principal: #172930;
+    --cor-texto-secundario: #73797f;
+    --cor-texto-barra: #FCF9F6;
+    --fonte-principal-barras: #3E5962;
+    --cor-hover: #85a99d;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -22,7 +31,7 @@ body {
 }
 
 h2 {
-    background-color: #333;
+    background-color: var(--cor-principal-barras);
     color: #fff;
     padding: 10px;
     margin: 0 0 20px 0;
@@ -46,7 +55,7 @@ input {
 
 button {
     padding: 10px;
-    background-color: #333;
+    background-color: var(--cor-principal-barras);
     color: #fff;
     border: none;
     cursor: pointer;
@@ -55,7 +64,7 @@ button {
 }
 
 button:hover {
-    background-color: #555;
+    background-color: var(--cor-hover);
 }
 
 #emails {
@@ -123,7 +132,7 @@ button:hover {
 }
 
 .livro a {
-    color: #1a0dab;
+    color: var(--cor-texto-principal);
     text-decoration: none;
 }
 

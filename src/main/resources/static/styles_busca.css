@@ -1,0 +1,112 @@
+:root{
+    --cor-principal-barras: #3E5962;
+    --cor-texto-principal: #172930;
+    --cor-texto-secundario: #73797f;
+    --cor-texto-barra: #FCF9F6;
+    --fonte-principal-barras: #3E5962;
+    --cor-hover: #85a99d;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--cor-principal-barras);
+    color: var(--cor-texto-barra);
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input,
+.search-container select,
+.search-container button {
+    margin-right: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-container button {
+    background-color: var(--cor-texto-principal);
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: var(--cor-hover);
+}
+
+#livrosContainer {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-around;
+}
+
+.livro-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: calc(33% - 40px);
+    box-sizing: border-box;
+}
+
+.livro-card img {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.livro-card h2 {
+    margin: 10px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.livro-card p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.livro-card a {
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.livro-card a:hover {
+    text-decoration: underline;
+}
+
+.livro-card strong {
+    color: #e60000;
+}
+
+nav a {
+    color: var(--cor-texto-barra);
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+.pesquisar-livros {
+    flex-grow: 1; /* permite que a barra de pesquisa cresça */
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-width: 300px;
+    margin-right: 30px;
+}
