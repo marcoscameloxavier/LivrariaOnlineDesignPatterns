@@ -62,4 +62,8 @@ public class Pedido {
     public double getValorFrete() {
         return this.calcularCustoEnvio();
     }
+
+    public EntregaStrategy getEntregaStrategy() {
+        return entregaStrategy;
+    }
 }

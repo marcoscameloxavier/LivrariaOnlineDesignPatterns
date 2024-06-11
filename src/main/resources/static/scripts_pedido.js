@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(pedido => {
                     const pesoTotal = (pedido.peso / 1000).toFixed(2);
-                    resultadoPedido.innerHTML = `<p>Pedido criado com sucesso. Peso total dos itens do pedido: ${pesoTotal} kg</p>`;
+                    resultadoPedido.innerHTML += `<p>Pedido criado com sucesso. Peso total dos itens do pedido: ${pesoTotal} kg</p>`;
                 })
                 .catch(error => {
                     console.error('Erro ao criar pedido:', error);

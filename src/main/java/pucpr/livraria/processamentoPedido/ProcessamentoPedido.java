@@ -16,15 +16,17 @@ public abstract class ProcessamentoPedido {
         this.proximo = proximo;
     }
 
-    public void statusPedido(int level, Pedido pedido) {
+    public String statusPedido(int level, Pedido pedido) {
         if (this.level <= level) {
-            processar(pedido);
-            return;
+            return processar(pedido);
         }
         if (proximo != null) {
-            proximo.statusPedido(level, pedido);
+            return proximo.statusPedido(level, pedido);
+        }
+        else {
+            return "Pedido não processado";
         }
     }
 
-    public abstract void processar(Pedido pedido);
+    public abstract String processar(Pedido pedido);
 }

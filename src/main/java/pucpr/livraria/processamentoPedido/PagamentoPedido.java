@@ -8,10 +8,14 @@ public class PagamentoPedido extends ProcessamentoPedido{
     }
 
     @Override
-    public void processar(Pedido pedido) {
-        System.out.println("Pagamento realizado com sucesso!");
+    public String processar(Pedido pedido) {
+        String mensagem = String.format("Pagamento realizado com sucesso!");
+        System.out.println(mensagem);
         if (proximo != null) {
-            proximo.processar(pedido);
+            return mensagem + "<br/>"+ proximo.processar(pedido);
+        }
+        else{
+            return mensagem;
         }
     }
 }

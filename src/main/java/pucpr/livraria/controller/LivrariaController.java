@@ -16,6 +16,8 @@ import pucpr.livraria.notificacao.NotificacaoRequest;
 import pucpr.livraria.notificacao.TipoNotificacao;
 import pucpr.livraria.processamentoPedido.PedidoRequest;
 import pucpr.livraria.processamentoPedido.ProcessamentoPedido;
+import pucpr.livraria.strategy.EntregaEconomica;
+import pucpr.livraria.strategy.EntregaRapida;
 import pucpr.livraria.strategy.EntregaStrategy;
 
 import java.io.IOException;
@@ -151,11 +153,21 @@ public class LivrariaController {
         Cliente cliente = livrariaFachada.buscarClientePorCPF(cpf);
         List<Pedido> pedidos = cliente.getPedidos(); // assumindo que Cliente tem uma lista de pedidos
         Pedido pedido = pedidos.get(pedidos.size() - 1); // pega o último pedido para processar
+        String tipoEntrega;
+        EntregaStrategy entregaStrategy = pedido.getEntregaStrategy();
+        // comparar o tipo da classe da EntregaStrategy para retornar a String correspondente
+        if (entregaStrategy instanceof EntregaRapida) {
+            tipoEntrega = "Entrega Rápida";
+        } else if (entregaStrategy instanceof EntregaEconomica) {
+            tipoEntrega = "Entrega Econômica";
+        } else {
+            tipoEntrega = "Entrega Sedex";
+        }
 
         ProcessamentoPedido acompanhamentoPedido = LivrariaFachada.getChainOfResponsibility();
-        acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+        String processamento = acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
 
-        return ResponseEntity.ok(Collections.singletonMap("resultado", "Pedido processado com sucesso."));
+        return ResponseEntity.ok(Collections.singletonMap("resultado", "Pedido de " + tipoEntrega + " processado: <br/>" + processamento));
     }
 
 

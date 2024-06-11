@@ -9,13 +9,16 @@ public class EmissaoNF extends ProcessamentoPedido{
     }
 
     @Override
-    public void processar(Pedido pedido) {
+    public String processar(Pedido pedido) {
         // Emissão de NF
 
-        System.out.printf("Nota fiscal emitida no valor total de R$%.2f, com custo de envio de R$%.2f \n", pedido.getValorTotal(), pedido.getValorFrete());
-
+        String mensagem = String.format("Nota fiscal emitida no valor total de R$%.2f, com custo de envio de R$%.2f", pedido.getValorTotal(), pedido.getValorFrete());
+        System.out.println(mensagem);
             if (proximo != null) {
-                proximo.processar(pedido);
+                return mensagem + "<br/>"+ proximo.processar(pedido);
+            }
+            else{
+                return mensagem;
             }
     }
 }

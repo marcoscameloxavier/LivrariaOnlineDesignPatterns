@@ -9,8 +9,14 @@ public class EntregaRealizada extends ProcessamentoPedido{
     }
 
     @Override
-    public void processar(Pedido pedido) {
-        // Entrega realizada
-        System.out.printf("Entrega do cliente %s realizada com sucesso\n", pedido.getCliente().getNome());
+    public String processar(Pedido pedido) {
+        String mensagem = String.format("Entrega do cliente %s realizada com sucesso", pedido.getCliente().getNome());
+        System.out.println(mensagem);
+        if (proximo != null) {
+            return mensagem + "<br/>"+ proximo.processar(pedido);
+        }
+        else{
+            return mensagem;
+        }
     }
 }
