@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailDiv = document.createElement('div');
             emailDiv.classList.add('email');
 
+            const emailImg = document.createElement('img');
+            emailImg.src = 'img/logo.png'; // Caminho para o ícone
+            emailImg.alt = 'Ícone da página';
+
             const emailContent = document.createElement('div');
             emailContent.classList.add('email-content');
             emailContent.innerText = 'Nova recomendação recebida';
@@ -39,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const now = new Date();
             emailTime.innerText = `${now.getHours()}:${('0' + now.getMinutes()).slice(-2)}`;
 
+            emailDiv.appendChild(emailImg);
             emailDiv.appendChild(emailContent);
             emailDiv.appendChild(emailTime);
 
