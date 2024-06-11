@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const telefoneCliente = document.getElementById('telefoneCliente');
     const enderecoCliente = document.getElementById('enderecoCliente');
     const cpfCliente = document.getElementById('cpfCliente');
-    const cepCliente = document.getElementById('cepCliente');
 
     sendButton.addEventListener('click', () => {
         const tipo = tipoNotificacao.value;
@@ -22,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 telefone: telefoneCliente.value,
                 endereco: enderecoCliente.value,
                 cpf: cpfCliente.value,
-                cep: cepCliente.value
+                cep: '12345-678'
             };
 
             const requestBody = {
