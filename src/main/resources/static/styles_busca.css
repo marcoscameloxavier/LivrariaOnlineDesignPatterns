@@ -127,7 +127,7 @@ nav a {
     text-align: center;
     font-size: 20px;
     padding: 20px;
-    display: block;
+    display: none; /* Inicialmente oculto */
 }
 
 .loading-dots {

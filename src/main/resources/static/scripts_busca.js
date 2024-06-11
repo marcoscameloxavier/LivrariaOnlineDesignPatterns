@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const searchType = document.getElementById('searchType');
     const livrosContainer = document.getElementById('livrosContainer');
+    const loadingElement = document.getElementById('loading');
 
     // Função para buscar e exibir livros
     const buscarLivros = (query, type) => {
-        document.getElementById("loading").style.display = "block";
+        loadingElement.style.display = "block";
         fetch(`/livros/${type}?${type}=${query}`)
             .then(response => response.json())
             .then(livros => {
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     livroCard.classList.add('livro-card');
                     livroCard.innerHTML = `
                         <div class="livro-capa">
-                        <img src="${livro.capa}" alt="Capa do livro">
+                            <img src="${livro.capa}" alt="Capa do livro">
                         </div>
                         <h2>${livro.titulo}</h2>
                         <p><strong>Autor:</strong> ${livro.autor}</p>
@@ -30,8 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     livrosContainer.appendChild(livroCard);
                 });
+                loadingElement.style.display = "none";
+            })
+            .catch(error => {
+                console.error('Erro ao buscar livros:', error);
+                loadingElement.style.display = "none";
             });
-        document.getElementById("loading").style.display = "none";
     };
 
     // Buscar livros ao clicar no botão de busca
@@ -43,6 +48,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Carregar livros de título "Design Patterns" ao abrir a página
     buscarLivros("Engenharia de Software", "titulo");
 });
