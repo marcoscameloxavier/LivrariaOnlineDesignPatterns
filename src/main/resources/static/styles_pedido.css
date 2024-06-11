@@ -88,15 +88,15 @@ h2 {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .livro-card h3 {
     margin: 0 0 10px 0;
     font-size: 18px;
-    color: #333;
+    color: var(--cor-principal-barras);
 }
 
 .livro-card p {
@@ -135,4 +135,9 @@ h2 {
 #resultadoPedido {
     margin-top: 20px;
     color: var(--cor-texto-principal);
+}
+
+#dadosCliente p{
+    margin: 5px 0;
+    color: #666;
 }

@@ -6,7 +6,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const tipoEntrega = document.getElementById('tipoEntrega');
     const livrosContainer = document.getElementById('livrosContainer');
     const resultadoPedido = document.getElementById('resultadoPedido');
+    const dadosClienteContainer = document.getElementById('dadosCliente');
     let livrosSelecionados = [];
+
+    const cpf = "123.456.789-00"; // CPF fixo para demonstração
+
+    // Buscar e exibir dados do cliente ao carregar a página
+    fetch(`/clientes/cpf?cpf=${cpf}`)
+        .then(response => response.json())
+        .then(cliente => {
+            dadosClienteContainer.innerHTML = `
+                <p><strong>Nome:</strong> ${cliente.nome}</p>
+                <p><strong>Email:</strong> ${cliente.email}</p>
+                <p><strong>Telefone:</strong> ${cliente.telefone}</p>
+                <p><strong>Endereço:</strong> ${cliente.endereco}</p>
+                <p><strong>CPF:</strong> ${cliente.cpf}</p>
+            `;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados do cliente:', error);
+            dadosClienteContainer.innerHTML = `<p>Erro ao buscar dados do cliente.</p>`;
+        });
 
     searchButton.addEventListener('click', () => {
         const query = searchInput.value;
@@ -21,8 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         livroCard.classList.add('livro-card');
                         livroCard.innerHTML = `
                             <h3>${livro.titulo}</h3>
-                            <p>Preço: R$${livro.preco.toFixed(2)} com ${livro.numPaginas}
-                                                        <p>Preço: R$${livro.preco.toFixed(2)} com ${livro.numPaginas} páginas</p>
+                            <p>Preço: R$${livro.preco.toFixed(2)} com ${livro.numPaginas} páginas</p>
                         `;
                         livrosContainer.appendChild(livroCard);
                     });
@@ -32,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     criarPedidoButton.addEventListener('click', () => {
         const tipo = tipoEntrega.value;
-        const cpf = "123.456.789-00"; // CPF fixo para demonstração
 
         if (livrosSelecionados.length > 0) {
             const entrega = { tipo: tipo };
@@ -67,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ cpf: "123.456.789-00" })
+            body: JSON.stringify({ cpf: cpf })
         })
             .then(response => response.json())
             .then(data => {
