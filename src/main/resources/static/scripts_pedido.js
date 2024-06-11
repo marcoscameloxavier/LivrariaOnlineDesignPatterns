@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         livroCard.classList.add('livro-card');
                         livroCard.innerHTML = `
                             <h3>${livro.titulo}</h3>
-                            <p>Preço: R$${livro.preco.toFixed(2)} com ${livro.numPaginas} páginas</p>
+                            <p>Preço: R$${livro.preco.toFixed(2)} com ${livro.numPaginas}
+                                                        <p>Preço: R$${livro.preco.toFixed(2)} com ${livro.numPaginas} páginas</p>
                         `;
                         livrosContainer.appendChild(livroCard);
                     });
@@ -50,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
                 .then(response => response.json())
                 .then(pedido => {
-                    resultadoPedido.innerHTML = `<p>Pedido criado com sucesso. ID do pedido: ${pedido.id}</p>`;
+                    const pesoTotal = (pedido.peso / 1000).toFixed(2);
+                    resultadoPedido.innerHTML = `<p>Pedido criado com sucesso. Peso total dos itens do pedido: ${pesoTotal} kg</p>`;
                 })
                 .catch(error => {
                     console.error('Erro ao criar pedido:', error);
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ cpf: "111.111.111-11" })
+            body: JSON.stringify({ cpf: "123.456.789-00" })
         })
             .then(response => response.json())
             .then(data => {

@@ -1,5 +1,6 @@
 package pucpr.livraria.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import pucpr.livraria.strategy.EntregaStrategy;
 
 import java.lang.reflect.Array;
@@ -10,6 +11,7 @@ public class Pedido {
     private double peso;
     private EntregaStrategy entregaStrategy;
 
+    @JsonBackReference
     private Cliente cliente;
     private ArrayList<Livro> listaLivro;
 

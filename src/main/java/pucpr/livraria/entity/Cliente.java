@@ -1,5 +1,7 @@
 package pucpr.livraria.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class Cliente {
     private String cep;
     private ListaInteresses listaInteresses;
 
+    @JsonManagedReference
     private List<Pedido> pedidos;
 
     public Cliente(String nome, String email, String telefone, String endereco, String cpf, String cep) {

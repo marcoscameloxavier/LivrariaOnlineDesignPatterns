@@ -12,7 +12,7 @@ public class ClienteRepositorio {
         this.clientes = new ArrayList<>();
         this.clientes.add(new Cliente("João de Carvalho", "joao@gmail.com", "9999-9999", "Rua 25 de março, Rio de Janeiro", "111.111.111-11", "51030-250"));
         this.clientes.add(new Cliente("Maria da Silva", "maria@gmail.com", "8888-8888", "Avenida Jacarandá, lt 14, Águas Claras", "222.222.222-22", "71050-360"));
-        this.clientes.add(new Cliente("José Pereira", "jose@gmail.com", "7777-7777", "Rua 13 de maio, Curitiba", "333.333.333-33", "80020-270"));
+        this.clientes.add(new Cliente("José Pereira", "jose@gmail.com", "7777-7777", "Rua 13 de maio, Curitiba", "123.456.789-00", "80020-270"));
     }
 
     public Cliente buscarClientePorCPF(String cpf) {

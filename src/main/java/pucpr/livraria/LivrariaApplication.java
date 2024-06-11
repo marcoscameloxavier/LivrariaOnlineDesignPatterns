@@ -48,7 +48,7 @@ public class LivrariaApplication {
 		System.out.println("\n------Exemplo de uso do padrão Facade, DAO e Singleton(dados da API):------");
 
 		System.out.println("Buscando livros pelo título 'Design Patterns':");
-		List<Livro> livros = fachada.buscarLivros("Design Patterns");
+		List<Livro> livros = fachada.buscarLivrosPorTitulo("Design Patterns");
 
 		for (Livro livro : livros) {
 			System.out.println("Título: " + livro.getTitulo());
