@@ -45,6 +45,7 @@ main {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     width: 800px;
     margin: auto;
+    height: 1000px;
 }
 
 h2 {
@@ -155,8 +156,13 @@ h2{
 }
 
 .conteiner{
-   max-height: 400px;
+   max-height: 200px;
    overflow-y: auto;
+}
+
+.conteiner2{
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .processamento-container {
@@ -167,7 +173,7 @@ h2{
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     width: 800px;
     margin: auto;
-    max-height: 1000px;
+    height: 1000px;
     overflow-y: auto;
 }
 
@@ -176,4 +182,15 @@ h2{
     justify-content: space-between;
     margin-top: 20px;
     width: 1700px;
+}
+
+h4{
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
 }

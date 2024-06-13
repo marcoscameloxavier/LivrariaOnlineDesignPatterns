@@ -83,12 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
         element.scrollTop = element.scrollHeight;
     };
 
+    // Usar MutationObserver para observar mudanças na div
+    const observer = new MutationObserver(() => scrollToBottom(resultadoProcessamento));
+    observer.observe(resultadoProcessamento, { childList: true });
+
     const connectSSE = () => {
         const eventSource = new EventSource('/pedidos/processados');
         eventSource.onmessage = function(event) {
             if (event.data !== "") {
                 resultadoProcessamento.innerHTML += `<p>${event.data}</p>`;
-                scrollToBottom(resultadoProcessamento);
             }
         };
         eventSource.onerror = function(err) {
