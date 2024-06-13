@@ -20,25 +20,32 @@
     </div>
 </header>
 <main>
-    <div class="pedido-container">
-        <h2>Realizar Pedido</h2>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Digite aqui para buscar livros...">
-            <button type="button" id="searchButton">Buscar</button>
+    <div class="conteiner-total">
+        <div class="pedido-container">
+            <h2>Realizar Pedido</h2>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Digite aqui para buscar livros...">
+                <button type="button" id="searchButton">Buscar</button>
+            </div>
+            <div id="livrosContainer" class="conteiner">
+                <!-- Resultados da busca serão adicionados aqui -->
+            </div>
+            <h3>Dados do Cliente</h3>
+            <div id="dadosCliente">
+                <!-- Dados do cliente serão exibidos aqui -->
+            </div>
+            <div class="pedido-options">
+                <button type="button" id="criarPedidoButton">Criar Pedidos</button>
+            </div>
+            <div id="resultadoPedido" class="conteiner">
+                <!-- Resultados do pedido serão exibidos aqui -->
+            </div>
         </div>
-        <div id="livrosContainer">
-            <!-- Resultados da busca serão adicionados aqui -->
-        </div>
-        <h3>Dados do Cliente</h3>
-        <div id="dadosCliente">
-            <!-- Dados do cliente serão exibidos aqui -->
-        </div>
-        <div class="pedido-options">
-            <button type="button" id="criarPedidoButton">Criar Pedidos</button>
-            <button type="button" id="processarPedidoButton">Processar Pedidos em Lote</button>
-        </div>
-        <div id="resultadoPedido">
-            <!-- Resultados do pedido serão exibidos aqui -->
+        <div class="processamento-container">
+            <h2>Processamento de Pedidos</h2>
+            <div id="resultadoProcessamento">
+                <!-- Resultados do processamento serão exibidos aqui -->
+            </div>
         </div>
     </div>
 </main>

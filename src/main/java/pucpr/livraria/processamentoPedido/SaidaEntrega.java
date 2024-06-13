@@ -10,6 +10,7 @@ public class SaidaEntrega extends ProcessamentoPedido{
     @Override
     public String processar(Pedido pedido) {
         String mensagem = String.format("PEDIDO n. %d: Seu pedido saiu para entrega para o endereço %s!",pedido.getId() ,pedido.getCliente().getEndereco());
+        pedido.atualizaStatusProcessamento(mensagem);
         System.out.println(mensagem);
         if (proximo != null) {
             return mensagem + "<br/>"+ proximo.processar(pedido);

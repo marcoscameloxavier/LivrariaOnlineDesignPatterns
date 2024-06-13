@@ -10,6 +10,7 @@ public class Pedido {
     private static final AtomicInteger count = new AtomicInteger(0);
     private final int id;
     private double peso;
+    private String statusProcessamento;
     private EntregaStrategy entregaStrategy;
 
     @JsonBackReference
@@ -21,6 +22,7 @@ public class Pedido {
         this.cliente = cliente;
         this.listaLivro = listaLivro;
         this.peso = calcularPeso();
+        this.statusProcessamento = "";
     }
 
     private double calcularPeso() {
@@ -70,5 +72,13 @@ public class Pedido {
 
     public EntregaStrategy getEntregaStrategy() {
         return entregaStrategy;
+    }
+
+    public String getStatusProcessamento() {
+        return statusProcessamento;
+    }
+
+    public void atualizaStatusProcessamento(String status) {
+        this.statusProcessamento += "<br/>"+ status;
     }
 }

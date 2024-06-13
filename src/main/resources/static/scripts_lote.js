@@ -70,41 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(pedido_retorno => {
                     const pesoTotal = (pedido_retorno.peso / 1000).toFixed(2);
-                    resultadoPedido.innerHTML += `<p>Pedido de ID = ${pedido_retorno.id} criado com sucesso e adicionado à fila de processamento. Peso total dos itens do pedido: ${pesoTotal} kg</p>`;
+                    resultadoPedido.innerHTML += `<p>Pedido de ID = ${pedido_retorno.id} adicionado à fila de processamento. Peso total dos itens do pedido: ${pesoTotal} kg</p>`;
                 })
                 .catch(error => {
                     console.error('Erro ao criar pedido:', error);
                     resultadoPedido.innerHTML = `<p>Erro ao criar pedido.</p>`;
                 });
         });
-
-        // Usar Promise.all para garantir que todas as promessas de pedidos sejam resolvidas antes de processar
-        Promise.all(pedidoPromises)
-            .then(() => {
-                console.log('Todos os pedidos foram criados e adicionados à fila.');
-                // Habilitar o botão de processar pedidos após criar e adicionar todos os pedidos
-                processarPedidoButton.disabled = false;
-            })
-            .catch(error => {
-                console.error('Erro ao criar e adicionar pedidos à fila:', error);
-                resultadoPedido.innerHTML += `<p>Erro ao criar e adicionar pedidos à fila.</p>`;
-            });
     });
-
-    processarPedidoButton.addEventListener('click', () => {
-        fetch('/processarPedidos', {
-            method: 'POST'
-        })
-            .then(response => response.text())
-            .then(message => {
-                resultadoPedido.innerHTML += `<p>${message}</p>`;
-            })
-            .catch(error => {
-                console.error('Erro ao processar pedidos:', error);
-                resultadoPedido.innerHTML += `<p>Erro ao processar pedidos.</p>`;
-            });
-    });
-
-    // Inicialmente, o botão de processar pedidos deve estar desativado
-    processarPedidoButton.disabled = true;
 });

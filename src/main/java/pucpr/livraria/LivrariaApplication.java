@@ -72,5 +72,7 @@ public class LivrariaApplication {
 		pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros, new EntregaSedex());
 
 		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+
+		System.out.println(pedido.getStatusProcessamento());
 	}
 }

@@ -23,30 +23,37 @@ body {
     color: var(--cor-texto-barra);
 }
 
-.header-container h3 {
-    margin: 0;
-}
-
-#menu-principal a {
+nav a {
     color: var(--cor-texto-barra);
     text-decoration: none;
-    padding: 10px;
-    margin: 0 10px;
-    background-color: var(--cor-principal-barras);
-    border-radius: 5px;
+    padding: 8px 16px;
 }
 
-#menu-principal a:hover {
+nav a:hover {
     background-color: var(--cor-hover);
 }
 
-.pedido-container {
+main {
     padding: 20px;
+}
+
+.pedido-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 800px;
+    margin: auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: var(--cor-texto-principal);
 }
 
 .search-container {
     display: flex;
-    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -56,53 +63,79 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px;
+    font-size: 16px;
 }
 
 .search-container button {
     padding: 10px;
-    border: none;
     background-color: var(--cor-principal-barras);
     color: #fff;
+    border: none;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 16px;
 }
 
 .search-container button:hover {
     background-color: var(--cor-hover);
 }
 
-#livrosContainer .livro-card {
+#livrosContainer {
+    margin-bottom: 20px;
+}
+
+.livro-card {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin: 10px;
-    padding: 20px;
-    width: calc(100% - 40px);
-    box-sizing: border-box;
 }
 
-#livrosContainer .livro-card h3 {
+.livro-card h3 {
     margin: 0 0 10px 0;
-    font-size: 18px;
+    font-size: 14px;
+    color: var(--cor-principal-barras);
 }
 
-#livrosContainer .livro-card p {
-    margin: 5px 0;
+h3{
+    font-size: 14px;
+    color: var(--cor-principal-barras);
+}
+
+h2{
+    font-size: 18px;
+    color: var(--cor-principal-barras);
+}
+
+.livro-card p {
+    margin: 1px 0;
     color: #666;
+    font-size: 12px;
 }
 
 .pedido-options {
-    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pedido-options label {
+    margin-right: 10px;
+}
+
+.pedido-options select,
+.pedido-options button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .pedido-options button {
-    padding: 10px;
-    border: none;
     background-color: var(--cor-principal-barras);
     color: #fff;
     cursor: pointer;
-    border-radius: 5px;
+    border: none;
     margin-right: 10px;
 }
 
@@ -112,8 +145,34 @@ body {
 
 #resultadoPedido {
     margin-top: 20px;
+    color: var(--cor-texto-principal);
 }
 
-#dadosCliente p {
+#dadosCliente p{
     margin: 5px 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.conteiner{
+   max-height: 400px;
+   overflow-y: auto;
+}
+
+.processamento-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 800px;
+    margin: auto;
+    max-height: 1200px;
+}
+
+.conteiner-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 1700px;
 }

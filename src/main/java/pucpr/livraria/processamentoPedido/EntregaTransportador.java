@@ -10,6 +10,7 @@ public class EntregaTransportador extends ProcessamentoPedido{
     @Override
     public String processar(Pedido pedido) {
         String mensagem = String.format("PEDIDO n. %d: Pedido entregue ao transportador. Peso total do pedido: %.2f kg",pedido.getId() ,pedido.getPeso()/1000);
+        pedido.atualizaStatusProcessamento(mensagem);
         System.out.println(mensagem);
         if (proximo != null) {
             return mensagem + "<br/>"+ proximo.processar(pedido);

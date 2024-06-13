@@ -10,6 +10,7 @@ public class PagamentoPedido extends ProcessamentoPedido{
     @Override
     public String processar(Pedido pedido) {
         String mensagem = String.format("PEDIDO n. %d: Pagamento realizado com sucesso no valor de R$%.2f!",pedido.getId() ,pedido.getValorTotal());
+        pedido.atualizaStatusProcessamento(mensagem);
         System.out.println(mensagem);
         if (proximo != null) {
             return mensagem + "<br/>"+ proximo.processar(pedido);
