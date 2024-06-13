@@ -6,11 +6,13 @@ import pucpr.livraria.processamentoPedido.ProcessamentoPedido;
 
 import java.util.concurrent.BlockingQueue;
 
-public class OrderConsumer implements Runnable {
+public class PedidoConsumer implements Runnable {
     private BlockingQueue<Pedido> queue;
+    private LivrariaFachada livrariaFachada;
 
-    public OrderConsumer(BlockingQueue<Pedido> queue) {
+    public PedidoConsumer(BlockingQueue<Pedido> queue, LivrariaFachada livrariaFachada) {
         this.queue = queue;
+        this.livrariaFachada = livrariaFachada;
     }
 
     @Override
@@ -27,6 +29,6 @@ public class OrderConsumer implements Runnable {
     }
 
     private void processOrder(Pedido pedido) {
-        LivrariaFachada.getChainOfResponsibility().statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
+        livrariaFachada.getChainOfResponsibility().statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
     }
 }

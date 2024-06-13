@@ -1,5 +1,6 @@
 package pucpr.livraria.facade;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pucpr.livraria.dao.ClienteDAO;
 import pucpr.livraria.dao.LivroDAO;
@@ -7,6 +8,7 @@ import pucpr.livraria.dao.PedidoDAO;
 import pucpr.livraria.entity.Cliente;
 import pucpr.livraria.entity.Livro;
 import pucpr.livraria.entity.Pedido;
+import pucpr.livraria.processamentoLote.PedidoConcluidoProducer;
 import pucpr.livraria.processamentoPedido.*;
 import pucpr.livraria.strategy.EntregaStrategy;
 
@@ -15,23 +17,22 @@ import java.util.List;
 
 @Service
 public class LivrariaFachada {
+
     private LivroDAO livroDAO;
     private PedidoDAO pedidoDAO;
     private ClienteDAO clienteDAO;
+    private PedidoConcluidoProducer pedidoConcluidoProducer;
 
-    public LivrariaFachada() {
+    @Autowired
+    public LivrariaFachada(PedidoConcluidoProducer pedidoConcluidoProducer) {
         this.livroDAO = new LivroDAO();
         this.pedidoDAO = new PedidoDAO();
         this.clienteDAO = new ClienteDAO();
+        this.pedidoConcluidoProducer = pedidoConcluidoProducer;
     }
 
     public Cliente cadastrarCliente(Cliente cliente) {
         return clienteDAO.salvar(cliente);
-    }
-
-    public void realizarPedido(Pedido pedido) {
-       // pedidoDAO.salvar(pedido);
-        // Outras operações relacionadas
     }
 
     public List<Livro> buscarLivrosPorAutor(String autor) {
@@ -61,13 +62,12 @@ public class LivrariaFachada {
         return this.pedidoDAO.recuperarPedidos();
     }
 
-    public static ProcessamentoPedido getChainOfResponsibility() {
-
+    public ProcessamentoPedido getChainOfResponsibility() {
         ProcessamentoPedido pagamentoEfetuado = new PagamentoPedido();
         ProcessamentoPedido emissaoNF = new EmissaoNF();
         ProcessamentoPedido entregaTransportador = new EntregaTransportador();
         ProcessamentoPedido saidaEntrega = new SaidaEntrega();
-        ProcessamentoPedido entregaRealizada = new EntregaRealizada();
+        ProcessamentoPedido entregaRealizada = new EntregaRealizada(pedidoConcluidoProducer);
 
         pagamentoEfetuado.setProximo(emissaoNF);
         emissaoNF.setProximo(entregaTransportador);

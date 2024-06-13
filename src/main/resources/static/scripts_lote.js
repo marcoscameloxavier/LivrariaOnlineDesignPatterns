@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const criarPedidoButton = document.getElementById('criarPedidoButton');
-    const processarPedidoButton = document.getElementById('processarPedidoButton');
     const searchInput = document.getElementById('searchInput');
     const livrosContainer = document.getElementById('livrosContainer');
     const resultadoPedido = document.getElementById('resultadoPedido');
@@ -77,5 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     resultadoPedido.innerHTML = `<p>Erro ao criar pedido.</p>`;
                 });
         });
+
+        // Usar Promise.all para garantir que todas as promessas de pedidos sejam resolvidas antes de continuar
+        Promise.all(pedidoPromises)
+            .then(() => {
+                resultadoPedido.innerHTML += `<p>Todos os pedidos foram criados e adicionados à fila.</p>`;
+            })
+            .catch(error => {
+                resultadoPedido.innerHTML += `<p>Erro ao criar e adicionar pedidos à fila.</p>`;
+            });
     });
 });

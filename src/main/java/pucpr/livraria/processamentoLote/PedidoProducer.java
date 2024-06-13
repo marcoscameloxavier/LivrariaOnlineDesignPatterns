@@ -4,10 +4,10 @@ import pucpr.livraria.entity.Pedido;
 
 import java.util.concurrent.BlockingQueue;
 
-public class OrderProducer {
+public class PedidoProducer {
     private BlockingQueue<Pedido> queue;
 
-    public OrderProducer(BlockingQueue<Pedido> queue) {
+    public PedidoProducer(BlockingQueue<Pedido> queue) {
         this.queue = queue;
     }
 

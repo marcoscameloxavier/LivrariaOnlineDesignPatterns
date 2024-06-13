@@ -1,7 +1,10 @@
 package pucpr.livraria;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import pucpr.livraria.config.AppConfig;
 import pucpr.livraria.entity.Cliente;
 import pucpr.livraria.entity.Livro;
 import pucpr.livraria.entity.Pedido;
@@ -9,6 +12,7 @@ import pucpr.livraria.facade.LivrariaFachada;
 import pucpr.livraria.notificacao.NotificacaoFactory;
 import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.TipoNotificacao;
+import pucpr.livraria.processamentoLote.PedidoConcluidoProducer;
 import pucpr.livraria.processamentoPedido.*;
 import pucpr.livraria.strategy.EntregaEconomica;
 import pucpr.livraria.strategy.EntregaRapida;
@@ -20,10 +24,13 @@ import java.util.List;
 @SpringBootApplication
 public class LivrariaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LivrariaApplication.class, args);
+	@Autowired
+	private static PedidoConcluidoProducer pedidoConcluidoProducer;
 
-		LivrariaFachada fachada = new LivrariaFachada();
+	public static void main(String[] args) {
+		ApplicationContext context = SpringApplication.run(LivrariaApplication.class, args);
+
+		LivrariaFachada fachada = context.getBean(LivrariaFachada.class);
 
 		// Padrão Factory Method
 		System.out.println("\n------Exemplo de uso do padrão Factory Method:------");
@@ -61,7 +68,7 @@ public class LivrariaApplication {
 		System.out.println("\nCriando pedido para o cliente " + cliente.getNome() + " com Entrega Econômica:");
 		Pedido pedido = fachada.criarPedido(cliente, (ArrayList<Livro>)livros, new EntregaEconomica());
 
-		ProcessamentoPedido acompanhamentoPedido = LivrariaFachada.getChainOfResponsibility();
+		ProcessamentoPedido acompanhamentoPedido = fachada.getChainOfResponsibility();
 		acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
 
 		System.out.println("\nDemonstração do mesmo pedido com Entrega Rápida:");

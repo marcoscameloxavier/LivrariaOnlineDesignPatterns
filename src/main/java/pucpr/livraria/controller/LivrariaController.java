@@ -16,8 +16,10 @@ import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.NotificacaoFactory;
 import pucpr.livraria.notificacao.NotificacaoRequest;
 import pucpr.livraria.notificacao.TipoNotificacao;
-import pucpr.livraria.processamentoLote.OrderConsumer;
-import pucpr.livraria.processamentoLote.OrderProducer;
+import pucpr.livraria.processamentoLote.PedidoConcluidoConsumer;
+import pucpr.livraria.processamentoLote.PedidoConcluidoProducer;
+import pucpr.livraria.processamentoLote.PedidoConsumer;
+import pucpr.livraria.processamentoLote.PedidoProducer;
 import pucpr.livraria.processamentoPedido.PedidoRequest;
 import pucpr.livraria.processamentoPedido.ProcessamentoPedido;
 import pucpr.livraria.strategy.EntregaEconomica;
@@ -29,26 +31,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 @RestController
 public class LivrariaController {
     @Autowired
     private LivrariaFachada livrariaFachada;
 
-    private final ExecutorService executor = Executors.newCachedThreadPool();
+    @Autowired
+    private PedidoConcluidoProducer pedidoConcluidoProducer;
 
+    private final ExecutorService executor = Executors.newCachedThreadPool();
     private final BlockingQueue<Pedido> pedidoQueue = new LinkedBlockingQueue<>();
-    private final OrderProducer orderProducer = new OrderProducer(pedidoQueue);
+    private final PedidoProducer pedidoProducer = new PedidoProducer(pedidoQueue);
+    private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     @PostConstruct
     public void init() {
-        OrderConsumer orderConsumer = new OrderConsumer(pedidoQueue);
-        Thread consumerThread = new Thread(orderConsumer);
+        PedidoConsumer pedidoConsumer = new PedidoConsumer(pedidoQueue, livrariaFachada);
+        Thread consumerThread = new Thread(pedidoConsumer);
         consumerThread.start();
+
+        // Configurar o consumer de pedidos concluídos
+        PedidoConcluidoConsumer pedidoConcluidoConsumer = new PedidoConcluidoConsumer(pedidoConcluidoProducer.getQueue(), emitters);
+        Thread consumerConcluidoThread = new Thread(pedidoConcluidoConsumer);
+        consumerConcluidoThread.start();
     }
 
     @GetMapping("/livros/titulo")
@@ -180,7 +187,7 @@ public class LivrariaController {
             tipoEntrega = "Entrega Sedex";
         }
 
-        ProcessamentoPedido acompanhamentoPedido = LivrariaFachada.getChainOfResponsibility();
+        ProcessamentoPedido acompanhamentoPedido = livrariaFachada.getChainOfResponsibility();
         String processamento = acompanhamentoPedido.statusPedido(ProcessamentoPedido.PAGAMENTO, pedido);
 
         return ResponseEntity.ok(Collections.singletonMap("resultado", "Pedido de " + tipoEntrega + " processado: <br/>" + processamento));
@@ -192,11 +199,21 @@ public class LivrariaController {
         Cliente cliente = livrariaFachada.buscarClientePorCPF(pedidoRequest.getCpf());
         Pedido pedido = livrariaFachada.criarPedido(cliente, (ArrayList<Livro>) pedidoRequest.getLivros(), pedidoRequest.getEntrega());
         cliente.addPedido(pedido);
-        orderProducer.addOrder(pedido);
+        pedidoProducer.addOrder(pedido);
         return ResponseEntity.ok(pedido);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar pedido à fila.");
         }
+    }
+
+    @GetMapping("/pedidos/processados")
+    public SseEmitter getPedidosProcessados() {
+        SseEmitter emitter = new SseEmitter();
+        emitters.add(emitter);
+        emitter.onCompletion(() -> emitters.remove(emitter));
+        emitter.onTimeout(() -> emitters.remove(emitter));
+
+        return emitter;
     }
 }
