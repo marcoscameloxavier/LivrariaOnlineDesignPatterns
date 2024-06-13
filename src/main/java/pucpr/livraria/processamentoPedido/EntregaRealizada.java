@@ -10,7 +10,7 @@ public class EntregaRealizada extends ProcessamentoPedido{
 
     @Override
     public String processar(Pedido pedido) {
-        String mensagem = String.format("Entrega do cliente %s realizada com sucesso", pedido.getCliente().getNome());
+        String mensagem = String.format("PEDIDO n. %d: Entrega do cliente %s realizada com sucesso", pedido.getId(), pedido.getCliente().getNome());
         System.out.println(mensagem);
         if (proximo != null) {
             return mensagem + "<br/>"+ proximo.processar(pedido);

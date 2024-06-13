@@ -1,6 +1,8 @@
 package pucpr.livraria.controller;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -14,6 +16,8 @@ import pucpr.livraria.notificacao.Notificacao;
 import pucpr.livraria.notificacao.NotificacaoFactory;
 import pucpr.livraria.notificacao.NotificacaoRequest;
 import pucpr.livraria.notificacao.TipoNotificacao;
+import pucpr.livraria.processamentoLote.OrderConsumer;
+import pucpr.livraria.processamentoLote.OrderProducer;
 import pucpr.livraria.processamentoPedido.PedidoRequest;
 import pucpr.livraria.processamentoPedido.ProcessamentoPedido;
 import pucpr.livraria.strategy.EntregaEconomica;
@@ -25,8 +29,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @RestController
 public class LivrariaController {
@@ -34,6 +40,16 @@ public class LivrariaController {
     private LivrariaFachada livrariaFachada;
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
+
+    private final BlockingQueue<Pedido> pedidoQueue = new LinkedBlockingQueue<>();
+    private final OrderProducer orderProducer = new OrderProducer(pedidoQueue);
+
+    @PostConstruct
+    public void init() {
+        OrderConsumer orderConsumer = new OrderConsumer(pedidoQueue);
+        Thread consumerThread = new Thread(orderConsumer);
+        consumerThread.start();
+    }
 
     @GetMapping("/livros/titulo")
     public ResponseEntity<List<Livro>> getLivrosPorTitulo(@RequestParam String titulo) {
@@ -170,5 +186,44 @@ public class LivrariaController {
         return ResponseEntity.ok(Collections.singletonMap("resultado", "Pedido de " + tipoEntrega + " processado: <br/>" + processamento));
     }
 
+    @PostMapping("/addPedido/{id}")
+    public ResponseEntity<String> addPedido(@PathVariable int id) {
+        try {
+            System.out.println("Adicionando pedido à fila: " + id);
+            List<Pedido> pedidos = livrariaFachada.getPedidos();
+            System.out.println("Pedidos existentes: " + pedidos.size());
+            for (Pedido pedido: pedidos
+                 ){
+                System.out.println(pedido.getId());
+            }
+            Pedido pedido = livrariaFachada.getPedidoPorId(id);
+            orderProducer.addOrder(pedido);
+            return ResponseEntity.ok("Pedido adicionado à fila: " + pedido.getId());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar pedido à fila.");
+        }
+    }
 
+    @PostMapping("/processarPedidos")
+    public ResponseEntity<String> processarPedidos() {
+        OrderConsumer consumer = new OrderConsumer(pedidoQueue);
+        Thread consumerThread = new Thread(consumer);
+        consumerThread.start();
+        return ResponseEntity.ok("Processamento de pedidos iniciado para " + pedidoQueue.size() + " pedidos.");
+    }
+
+    @PostMapping("/addPedidoFila")
+    public ResponseEntity<?> addPedidoFila(@RequestBody PedidoRequest pedidoRequest) {
+        try {
+        Cliente cliente = livrariaFachada.buscarClientePorCPF(pedidoRequest.getCpf());
+        Pedido pedido = livrariaFachada.criarPedido(cliente, (ArrayList<Livro>) pedidoRequest.getLivros(), pedidoRequest.getEntrega());
+        cliente.addPedido(pedido);
+        orderProducer.addOrder(pedido);
+        return ResponseEntity.ok(pedido);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar pedido à fila.");
+        }
+    }
 }

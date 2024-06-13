@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Pedido</title>
+    <link rel="stylesheet" href="styles_lote.css">
+    <link rel="shortcut icon" type="image/png" href="img/logo.png"/>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <h3>Projeto Design Patterns - Livraria</h3>
+        <nav id="menu-principal">
+            <a href="index.html">Busca de Livros (Facade, DAO e Singleton)</a>
+            <a href="interesses.html">Interesses (SSE e DTO)</a>
+            <a href="notificacoes.html">Notificações (Factory Method)</a>
+            <a href="pedido.html">Pedido (Strategy e Chain of Responsibility)</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="pedido-container">
+        <h2>Realizar Pedido</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Digite aqui para buscar livros...">
+            <button type="button" id="searchButton">Buscar</button>
+        </div>
+        <div id="livrosContainer">
+            <!-- Resultados da busca serão adicionados aqui -->
+        </div>
+        <h3>Dados do Cliente</h3>
+        <div id="dadosCliente">
+            <!-- Dados do cliente serão exibidos aqui -->
+        </div>
+        <div class="pedido-options">
+            <button type="button" id="criarPedidoButton">Criar Pedidos</button>
+            <button type="button" id="processarPedidoButton">Processar Pedidos em Lote</button>
+        </div>
+        <div id="resultadoPedido">
+            <!-- Resultados do pedido serão exibidos aqui -->
+        </div>
+    </div>
+</main>
+<script src="scripts_lote.js"></script>
+</body>
+</html>

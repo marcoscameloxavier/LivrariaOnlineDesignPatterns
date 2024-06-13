@@ -21,4 +21,13 @@ public class PedidoRepositorio {
 
         return this.pedidos;
     }
+
+    public Pedido getPedidoPorId(int idPedido) {
+        for (Pedido pedido : pedidos) {
+            if (pedido.getId() == idPedido) {
+                return pedido;
+            }
+        }
+        return null;
+    }
 }

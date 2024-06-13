@@ -19,4 +19,8 @@ public class PedidoDAO {
     public ArrayList<Pedido> recuperarPedidos (){
         return this.repositorio.recuperarPedidos();
     }
+
+    public Pedido getPedidoPorId(int idPedido) {
+        return this.repositorio.getPedidoPorId(idPedido);
+    }
 }

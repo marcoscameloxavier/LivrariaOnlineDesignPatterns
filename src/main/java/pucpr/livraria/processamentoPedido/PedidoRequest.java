@@ -10,7 +10,8 @@ public class PedidoRequest {
     private List<Livro> livros;
     private EntregaStrategy entrega;
 
-    // Getters and Setters
+    // Getters e setters
+
     public String getCpf() {
         return cpf;
     }

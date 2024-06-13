@@ -88,4 +88,12 @@ public class LivrariaFachada {
     public void atualizarCliente(Cliente cliente) {
         clienteDAO.atualizarCliente(cliente);
     }
+
+    public Pedido getPedidoPorId(int idPedido) {
+        return pedidoDAO.getPedidoPorId(idPedido);
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidoDAO.recuperarPedidos();
+    }
 }
