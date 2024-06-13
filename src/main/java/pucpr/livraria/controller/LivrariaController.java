@@ -3,6 +3,7 @@ package pucpr.livraria.controller;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -209,12 +210,22 @@ public class LivrariaController {
 
     @GetMapping("/pedidos/processados")
     public SseEmitter getPedidosProcessados() {
-        SseEmitter emitter = new SseEmitter();
+        // Aumentando o tempo limite para 30 minutos (1800000 milissegundos)
+        SseEmitter emitter = new SseEmitter(1800000L);
         emitters.add(emitter);
         executor.execute(() -> {
             try {
                 emitter.onCompletion(() -> emitters.remove(emitter));
                 emitter.onTimeout(() -> emitters.remove(emitter));
+
+                // Enviando "keep-alive" a cada 25 minutos para evitar timeouts
+                while (true) {
+                    Thread.sleep(1500000); // 25 minutos
+                    emitter.send(SseEmitter.event()
+                            .comment("keep-alive")
+                            .id(String.valueOf(System.currentTimeMillis()))
+                            .data("", MediaType.TEXT_PLAIN));
+                }
             } catch (Exception e) {
                 emitter.completeWithError(e);
             }

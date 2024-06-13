@@ -79,10 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const scrollToBottom = (element) => {
+        element.scrollTop = element.scrollHeight;
+    };
+
     const connectSSE = () => {
         const eventSource = new EventSource('/pedidos/processados');
         eventSource.onmessage = function(event) {
-            resultadoProcessamento.innerHTML += `<p>${event.data}</p>`;
+            if (event.data !== "") {
+                resultadoProcessamento.innerHTML += `<p>${event.data}</p>`;
+                scrollToBottom(resultadoProcessamento);
+            }
         };
         eventSource.onerror = function(err) {
             console.error('Erro na conexão SSE:', err);
