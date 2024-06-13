@@ -24,6 +24,7 @@ public class PedidoConcluidoConsumer implements Runnable {
                 for (SseEmitter emitter : emitters) {
                     try {
                         emitter.send(status);
+                        Thread.sleep(1000); // Simula um processamento
                     } catch (Exception e) {
                         emitters.remove(emitter);
                     }

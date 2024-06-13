@@ -211,9 +211,14 @@ public class LivrariaController {
     public SseEmitter getPedidosProcessados() {
         SseEmitter emitter = new SseEmitter();
         emitters.add(emitter);
-        emitter.onCompletion(() -> emitters.remove(emitter));
-        emitter.onTimeout(() -> emitters.remove(emitter));
-
+        executor.execute(() -> {
+            try {
+                emitter.onCompletion(() -> emitters.remove(emitter));
+                emitter.onTimeout(() -> emitters.remove(emitter));
+            } catch (Exception e) {
+                emitter.completeWithError(e);
+            }
+        });
         return emitter;
     }
 }

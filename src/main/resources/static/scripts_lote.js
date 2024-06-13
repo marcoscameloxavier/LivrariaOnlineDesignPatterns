@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const livrosContainer = document.getElementById('livrosContainer');
     const resultadoPedido = document.getElementById('resultadoPedido');
     const dadosClienteContainer = document.getElementById('dadosCliente');
+    const resultadoProcessamento = document.getElementById('resultadoProcessamento');
     let livrosSelecionados = [];
 
     const cpf = "123.456.789-00"; // CPF fixo para demonstração
@@ -58,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
 
-        const pedidoPromises = pedidos.map(pedido => {
-            return fetch('/addPedidoFila', {
+        pedidos.forEach(pedido => {
+            fetch('/addPedidoFila', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -76,14 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     resultadoPedido.innerHTML = `<p>Erro ao criar pedido.</p>`;
                 });
         });
-
-        // Usar Promise.all para garantir que todas as promessas de pedidos sejam resolvidas antes de continuar
-        Promise.all(pedidoPromises)
-            .then(() => {
-                resultadoPedido.innerHTML += `<p>Todos os pedidos foram criados e adicionados à fila.</p>`;
-            })
-            .catch(error => {
-                resultadoPedido.innerHTML += `<p>Erro ao criar e adicionar pedidos à fila.</p>`;
-            });
     });
+
+    const connectSSE = () => {
+        const eventSource = new EventSource('/pedidos/processados');
+        eventSource.onmessage = function(event) {
+            resultadoProcessamento.innerHTML += `<p>${event.data}</p>`;
+        };
+        eventSource.onerror = function(err) {
+            console.error('Erro na conexão SSE:', err);
+            eventSource.close();
+            setTimeout(connectSSE, 3000); // Tentar reconectar após 3 segundos
+        };
+    };
+
+    // Conectar ao SSE ao carregar a página
+    connectSSE();
 });
