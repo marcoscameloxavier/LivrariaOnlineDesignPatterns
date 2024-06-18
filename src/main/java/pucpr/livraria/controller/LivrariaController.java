@@ -21,7 +21,7 @@ import pucpr.livraria.processamentoLote.PedidoConcluidoConsumer;
 import pucpr.livraria.processamentoLote.PedidoConcluidoProducer;
 import pucpr.livraria.processamentoLote.PedidoConsumer;
 import pucpr.livraria.processamentoLote.PedidoProducer;
-import pucpr.livraria.processamentoPedido.PedidoRequest;
+import pucpr.livraria.dto.PedidoDTO;
 import pucpr.livraria.processamentoPedido.ProcessamentoPedido;
 import pucpr.livraria.strategy.EntregaEconomica;
 import pucpr.livraria.strategy.EntregaRapida;
@@ -164,7 +164,7 @@ public class LivrariaController {
     }
 
     @PostMapping("/enviarPedido")
-    public ResponseEntity<Pedido> enviarPedido(@RequestBody PedidoRequest pedidoRequest) {
+    public ResponseEntity<Pedido> enviarPedido(@RequestBody PedidoDTO pedidoRequest) {
         Cliente cliente = livrariaFachada.buscarClientePorCPF(pedidoRequest.getCpf());
         Pedido pedido = livrariaFachada.criarPedido(cliente, (ArrayList<Livro>) pedidoRequest.getLivros(), pedidoRequest.getEntrega());
         cliente.addPedido(pedido);
@@ -195,7 +195,7 @@ public class LivrariaController {
     }
 
     @PostMapping("/addPedidoFila")
-    public ResponseEntity<?> addPedidoFila(@RequestBody PedidoRequest pedidoRequest) {
+    public ResponseEntity<?> addPedidoFila(@RequestBody PedidoDTO pedidoRequest) {
         try {
         Cliente cliente = livrariaFachada.buscarClientePorCPF(pedidoRequest.getCpf());
         Pedido pedido = livrariaFachada.criarPedido(cliente, (ArrayList<Livro>) pedidoRequest.getLivros(), pedidoRequest.getEntrega());

@@ -1,11 +1,11 @@
-package pucpr.livraria.processamentoPedido;
+package pucpr.livraria.dto;
 
 import pucpr.livraria.entity.Livro;
 import pucpr.livraria.strategy.EntregaStrategy;
 
 import java.util.List;
 
-public class PedidoRequest {
+public class PedidoDTO {
     private String cpf;
     private List<Livro> livros;
     private EntregaStrategy entrega;
